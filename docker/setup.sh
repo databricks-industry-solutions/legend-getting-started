@@ -25,7 +25,7 @@ fi
 ##########################################
 
 echo "HOST_DNS_NAME is not specified, checking public IP"
-HOST_DNS_NAME=`curl http://checkip.amazonaws.com 2>/dev/null`
+HOST_DNS_NAME=`curl ifconfig.co 2>/dev/null`
 
 ##########################################
 # Clean up and prepare build directory
