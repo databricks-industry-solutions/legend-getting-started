@@ -96,5 +96,22 @@ services:
       - $BUILD_DIR/environment
     command: /scripts/run-depot-store.sh
 
+  legend-query:
+    container_name: $LEGEND_QUERY_SERVICE_NAME
+    image: finos/legend-query:$LEGEND_QUERY_IMAGE_VERSION
+    depends_on:
+      - legend-depot-store
+      - legend-depot-server
+    ports:
+      - $LEGEND_QUERY_PORT:$LEGEND_QUERY_PORT
+    networks:
+      - legend
+    volumes:
+      - $BUILD_DIR/configs/query:/config
+      - $BUILD_DIR/scripts:/scripts
+    env_file:
+      - $BUILD_DIR/environment
+    command: /scripts/run-query.sh
+
 networks:
   legend: {}
