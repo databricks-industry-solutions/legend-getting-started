@@ -73,6 +73,9 @@ services:
       - $LEGEND_DEPOT_SERVER_PORT:$LEGEND_DEPOT_SERVER_PORT
     networks:
       - legend
+    volumes:
+      - $BUILD_DIR/configs/depot-server:/config
+      - $BUILD_DIR/scripts:/scripts
     env_file:
       - $BUILD_DIR/environment
     command: /scripts/run-depot-server.sh
