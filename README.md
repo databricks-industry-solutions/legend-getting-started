@@ -23,8 +23,8 @@ ___
 
 &copy; 2022 Databricks, Inc. All rights reserved. The source in this notebook is provided subject to the Databricks License [https://databricks.com/db-license-source].  All included or referenced third party libraries are subject to the licenses set forth below.
 
-| library                                | description             | license | source                                 |
-|----------------------------------------|-------------------------|---------|----------------------------------------|
-| PyYAML                                 | Reading Yaml files      | MIT     | https://github.com/yaml/pyyaml         |
-| legend-delta                           | Reading Yaml files      | Apache2 | https://pypi.org/project/legend-delta/ |
+| library                                | description        | license | source                                 |
+|----------------------------------------|--------------------|---------|----------------------------------------|
+| PyYAML                                 | Reading Yaml files | MIT     | https://github.com/yaml/pyyaml         |
+| legend-delta                           | Legend delta       | Apache2 | https://pypi.org/project/legend-delta/ |
 
