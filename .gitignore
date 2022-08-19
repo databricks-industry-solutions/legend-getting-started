@@ -1,4 +1,5 @@
 docker/dist
 vault.properties
 config.properties
-
+.idea
+*.iml

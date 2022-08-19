@@ -3,11 +3,19 @@
     "mode": "TEST_IGNORE_FUNCTION_MATCH"
   },
   "logging": {
-    "level": "error",
+    "level": "INFO",
+    "loggers": {
+      "root": {
+        "level": "INFO"
+      },
+      "org.pac4j": {
+        "level": "INFO"
+      }
+    },
     "appenders": [
       {
         "type": "console",
-        "logFormat": "%msg\r\n"
+        "logFormat": "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%thread] %c - %m%n"
       }
     ]
   },
@@ -45,13 +53,12 @@
   },
   "swagger": {
     "title": "Legend Engine",
-    "resourcePackage": "org.finos.legend",
-    "uriPrefix": "/api"
+    "resourcePackage": "org.finos.legend"
   },
   "server": {
     "type": "simple",
-    "applicationContextPath": "/",
-    "adminContextPath": "/admin",
+    "applicationContextPath": "/exec",
+    "adminContextPath": "/exec/admin",
     "connector": {
       "maxRequestHeaderSize": "32KiB",
       "type": "http",
@@ -60,12 +67,13 @@
     "requestLog": {
       "appenders": [
       ]
-    }
+    },
+    "rootPath": "/api"
   },
   "metadataserver": {
     "pure": {
       "host": "__HOST_DNS_NAME__",
-      "port": 8090
+      "port": __LEGEND_ENGINE_METADATA_PORT__
     }
   },
   "temporarytestdb": {

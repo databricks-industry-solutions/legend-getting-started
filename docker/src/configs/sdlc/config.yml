@@ -3,28 +3,31 @@ applicationName: Legend SDLC
 sessionCookie: LEGEND_SDLC_JSESSIONID
 
 server:
+  adminContextPath: /sdlc/admin
   applicationConnectors:
     - type: http
       port: __LEGEND_SDLC_PORT__
       maxRequestHeaderSize: 128KiB
   adminConnectors:
     - type: http
-      port: 7076
+      port: __LEGEND_SDLC_ADMIN_PORT__
   gzip:
     includedMethods:
       - GET
       - POST
   requestLog:
     type: classic
+    level: OFF
     appenders:
-      - type: file
-        currentLogFilename: ./logs/access.log
-        threshold: ALL
-        archive: true
-        archivedLogFilenamePattern: ./logs/access-%d.log
-        archivedFileCount: 5
-        timeZone: UTC
-  rootPath: /api
+      - type: console
+        logFormat: "OFF"
+  rootPath: /sdlc/api
+
+projectStructure:
+  projectCreation:
+    groupIdPattern: ^com\.databricks\.legend\..+
+  extensionProvider:
+    org.finos.legend.sdlc.server.gitlab.finos.FinosGitlabProjectStructureExtensionProvider: {}
 
 filterPriorities:
   GitLab: 1
@@ -47,11 +50,11 @@ pac4j:
     enabled: true
     collection: userSessions
   bypassPaths:
-    - /api/info
+    - /sdlc/api/info
 
 gitLab:
   newProjectVisibility: public
-  projectIdPrefix: SAMPLE
+  projectIdPrefix: UAT
   projectTag: legend
   server:
     scheme: https
@@ -65,40 +68,9 @@ features:
   canCreateProject: true
   canCreateVersion: true
 
-projectStructure:
-  extensionProvider:
-    org.finos.legend.sdlc.server.gitlab.finos.FinosGitlabProjectStructureExtensionProvider: {}
-  platforms:
-    legend-engine:
-      groupId: org.finos.legend.engine
-      version:
-        12: 3.8.1
-      platformVersion:
-        version: 3.8.1
-        fromPackage: legend-engine-protocol-pure
-    legend-sdlc:
-      groupId: org.finos.legend.engine
-      version:
-        12: 0.83.1
-      platformVersion:
-        version: 0.83.1
-        fromPackage: legend-sdlc-server
-
 logging:
-  # Change this to affect library class logging
   level: INFO
-  loggers:
-    # Change this to affect application class logging
-    org.finos.legend.sdlc: INFO
   appenders:
-    - type: file
-      logFormat: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%thread] %c - %m%n"
-      currentLogFilename: ./logs/service.log
-      threshold: ALL
-      archive: true
-      archivedLogFilenamePattern: ./logs/service-%d.log
-      archivedFileCount: 5
-      timeZone: UTC
     - type: console
       logFormat: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%thread] %c - %m%n"
 
