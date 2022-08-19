@@ -80,5 +80,21 @@ services:
       - $BUILD_DIR/environment
     command: /scripts/run-depot-server.sh
 
+  legend-depot-store:
+    container_name: $LEGEND_DEPOT_STORE_SERVICE_NAME
+    image: finos/legend-depot-server:$LEGEND_DEPOT_STORE_IMAGE_VERSION
+    depends_on:
+      - legend-studio
+    ports:
+      - $LEGEND_DEPOT_STORE_PORT:$LEGEND_DEPOT_STORE_PORT
+    networks:
+      - legend
+    volumes:
+      - $BUILD_DIR/configs/depot-store:/config
+      - $BUILD_DIR/scripts:/scripts
+    env_file:
+      - $BUILD_DIR/environment
+    command: /scripts/run-depot-store.sh
+
 networks:
   legend: {}

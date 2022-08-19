@@ -20,6 +20,24 @@ if [ -z "$GITLAB_OAUTH_SECRET" ]; then
   exit 1
 fi
 
+GITLAB_PROJECT_ID=$(echo $(grep -v '^#' $PROPERTIES | grep -e "GITLAB_PROJECT_ID" | sed -e 's/.*=//'))
+if [ -z "$GITLAB_PROJECT_ID" ]; then
+  echo "GITLAB_PROJECT_ID is not specified."
+  exit 1
+fi
+
+GITLAB_DEPLOY_TOKEN_USERNAME=$(echo $(grep -v '^#' $PROPERTIES | grep -e "GITLAB_DEPLOY_TOKEN_USERNAME" | sed -e 's/.*=//'))
+if [ -z "$GITLAB_DEPLOY_TOKEN_USERNAME" ]; then
+  echo "GITLAB_DEPLOY_TOKEN_USERNAME is not specified."
+  exit 1
+fi
+
+GITLAB_DEPLOY_TOKEN_PASSWORD=$(echo $(grep -v '^#' $PROPERTIES | grep -e "GITLAB_DEPLOY_TOKEN_PASSWORD" | sed -e 's/.*=//'))
+if [ -z "$GITLAB_DEPLOY_TOKEN_PASSWORD" ]; then
+  echo "GITLAB_DEPLOY_TOKEN_PASSWORD is not specified."
+  exit 1
+fi
+
 ##########################################
 # 	Generate Mongo password
 ##########################################
@@ -84,6 +102,8 @@ for f in $(find $BUILD_DIR/configs -type f); do
   sed -i 's/__LEGEND_SDLC_ADMIN_PORT__/'$LEGEND_SDLC_ADMIN_PORT'/g' $f
   sed -i 's#__LEGEND_DEPOT_SERVER_URL__#'$LEGEND_DEPOT_SERVER_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_DEPOT_SERVER_PORT__/'$LEGEND_DEPOT_SERVER_PORT'/g' $f
+  sed -i 's#__LEGEND_DEPOT_STORE_URL__#'$LEGEND_DEPOT_STORE_PUBLIC_URL'#g' $f
+  sed -i 's/__LEGEND_DEPOT_STORE_PORT__/'$LEGEND_DEPOT_STORE_PORT'/g' $f
   sed -i 's/__LEGEND_ENGINE_PORT__/'$LEGEND_ENGINE_PORT'/g' $f
   sed -i 's#__LEGEND_ENGINE_URL__#'$LEGEND_ENGINE_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_ENGINE_METADATA_PORT__/'$LEGEND_ENGINE_METADATA_PORT'/g' $f
@@ -94,9 +114,13 @@ for f in $(find $BUILD_DIR/configs -type f); do
   sed -i 's/__MONGO_PASSWORD__/'$MONGO_PASSWORD'/g' $f
   sed -i 's/__LEGEND_ENGINE_IMAGE_VERSION__/'$LEGEND_ENGINE_IMAGE_VERSION'/g' $f
   sed -i 's/__LEGEND_SDLC_IMAGE_VERSION__/'$LEGEND_SDLC_IMAGE_VERSION'/g' $f
+  sed -i 's/__GITLAB_PROJECT_ID__/'$GITLAB_PROJECT_ID'/g' $f
+  sed -i 's/__GITLAB_DEPLOY_TOKEN_USERNAME__/'$GITLAB_DEPLOY_TOKEN_USERNAME'/g' $f
+  sed -i 's/__GITLAB_DEPLOY_TOKEN_PASSWORD__/'$GITLAB_DEPLOY_TOKEN_PASSWORD'/g' $f
 done
 
 for f in $(find $BUILD_DIR/scripts -type f); do
+  sed -i 's/__LEGEND_DEPOT_STORE_IMAGE_VERSION__/'$LEGEND_DEPOT_STORE_IMAGE_VERSION'/g' $f
   sed -i 's/__LEGEND_DEPOT_SERVER_IMAGE_VERSION__/'$LEGEND_DEPOT_SERVER_IMAGE_VERSION'/g' $f
   sed -i 's/__LEGEND_ENGINE_IMAGE_VERSION__/'$LEGEND_ENGINE_IMAGE_VERSION'/g' $f
   sed -i 's/__LEGEND_STUDIO_IMAGE_VERSION__/'$LEGEND_STUDIO_IMAGE_VERSION'/g' $f
