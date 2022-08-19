@@ -38,7 +38,7 @@ HOST_DNS_NAME=`curl ifconfig.co 2>/dev/null`
 
 [ -e $BUILD_DIR ] && rm -r $BUILD_DIR
 mkdir -p $BUILD_DIR
-mkdir -p $BUILD_DIR/data
+mkdir -p $BUILD_DIR/container-data
 
 ##########################################
 # create environment file
