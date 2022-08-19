@@ -82,7 +82,7 @@ services:
 
   legend-depot-store:
     container_name: $LEGEND_DEPOT_STORE_SERVICE_NAME
-    image: finos/legend-depot-server:$LEGEND_DEPOT_STORE_IMAGE_VERSION
+    image: finos/legend-depot-store-server:$LEGEND_DEPOT_STORE_IMAGE_VERSION
     depends_on:
       - legend-studio
     ports:
