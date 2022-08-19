@@ -48,7 +48,7 @@ cat $PWD/src/environment >> $DOTENV_FILE
 # Build all URLs
 ##########################################
 
-source $PWD/src/.env
+source $PWD/src/environment
 LEGEND_SDLC_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_SDLC_PORT
 LEGEND_ENGINE_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_ENGINE_PORT
 LEGEND_STUDIO_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_STUDIO_PORT
