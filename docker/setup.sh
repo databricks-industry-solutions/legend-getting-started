@@ -1,24 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 PWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 BUILD_DIR=$PWD/dist
 
 ##########################################
-# Find public IP
-##########################################
-
-if [ -z "$HOST_DNS_NAME" ]; then
-  echo "HOST_DNS_NAME is not specified, checking public IP"
-  HOST_DNS_NAME=`curl http://checkip.amazonaws.com 2>/dev/null`
-else
-  HOST_DNS_NAME='127.0.0.1'
-fi
-
-##########################################
 # Parse config file
 ##########################################
 
-PROPERTIES=$PWD/config/config.properties
+PROPERTIES=$PWD/config.properties
 GITLAB_OAUTH_CLIENT=$(echo $(grep -v '^#' $PROPERTIES | grep -e "GITLAB_OAUTH_CLIENT" | gsed -e 's/.*=//'))
 if [ -z "$GITLAB_OAUTH_CLIENT" ]; then
   echo "GITLAB_OAUTH_CLIENT is not specified."
@@ -30,6 +19,13 @@ if [ -z "$GITLAB_OAUTH_SECRET" ]; then
   echo "GITLAB_OAUTH_SECRET is not specified."
   exit 1
 fi
+
+##########################################
+# Find public IP
+##########################################
+
+echo "HOST_DNS_NAME is not specified, checking public IP"
+HOST_DNS_NAME=`curl http://checkip.amazonaws.com 2>/dev/null`
 
 ##########################################
 # Clean up and prepare build directory
@@ -63,7 +59,7 @@ LEGEND_STUDIO_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_STUDIO_PORT
 
 cp -r $PWD/src/scripts $BUILD_DIR/scripts
 cp -r $PWD/src/configs $BUILD_DIR/configs
-cp -r $PWD/config/vault.properties $BUILD_DIR/configs/engine/vault.properties
+cp -r $PWD/vault.properties $BUILD_DIR/configs/engine/vault.properties
 
 ##########################################
 # Configure configs
