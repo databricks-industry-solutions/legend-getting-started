@@ -12,6 +12,9 @@
     ]
   },
   "pac4j": {
+    "callbackPrefix": "",
+    "mongoUri": "mongodb://__MONGO_USER__:__MONGO_PASSWORD__@__MONGO_HOST__:__MONGO_PORT__",
+    "mongoDb": "legend",
     "bypassPaths": [
       "/api/server/v1/info"
     ],
@@ -22,12 +25,13 @@
           "clientId": "__GITLAB_OAUTH_CLIENT__",
           "secret": "__GITLAB_OAUTH_SECRET__",
           "discoveryUri": "https://gitlab.com/.well-known/openid-configuration",
-          "scope": "openid profile"
+          "scope": "openid profile api"
         }
       }
     ],
     "mongoSession": {
-      "enabled": false
+      "enabled": true,
+      "collection": "userSessions"
     }
   },
   "opentracing": {

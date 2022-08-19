@@ -1,9 +1,23 @@
 version: "3.8"
 services:
 
+  mongod:
+    container_name: $MONGO_SERVICE_NAME
+    image: mongo:$MONGO_IMAGE_VERSION
+    ports:
+      - $MONGO_PORT:$MONGO_PORT
+    networks:
+      - legend
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_USER
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
+    command: --auth
+
   sdlc:
     container_name: $LEGEND_SDLC_SERVICE_NAME
     image: finos/legend-sdlc-server:$LEGEND_SDLC_IMAGE_VERSION
+    depends_on:
+      - mongod
     ports:
       - $LEGEND_SDLC_PORT:$LEGEND_SDLC_PORT
     networks:
@@ -18,6 +32,8 @@ services:
   engine:
     container_name: $LEGEND_ENGINE_SERVICE_NAME
     image: finos/legend-engine-server:$LEGEND_ENGINE_IMAGE_VERSION
+    depends_on:
+      - mongod
     ports:
       - $LEGEND_ENGINE_PORT:$LEGEND_ENGINE_PORT
     networks:
@@ -28,6 +44,23 @@ services:
     env_file:
       - $BUILD_DIR/environment
     command: /scripts/run-engine.sh
+
+  studio:
+    container_name: $LEGEND_STUDIO_SERVICE_NAME
+    image: finos/legend-studio:$LEGEND_STUDIO_IMAGE_VERSION
+    depends_on:
+      - sdlc
+      - engine
+    ports:
+      - $LEGEND_STUDIO_PORT:$LEGEND_STUDIO_PORT
+    networks:
+      - legend
+    volumes:
+      - $BUILD_DIR/configs/studio:/config
+      - $BUILD_DIR/scripts:/scripts
+    env_file:
+      - $BUILD_DIR/environment
+    command: /scripts/run-studio.sh
 
 networks:
   legend: {}

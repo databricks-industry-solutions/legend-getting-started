@@ -21,6 +21,12 @@ if [ -z "$GITLAB_OAUTH_SECRET" ]; then
 fi
 
 ##########################################
+# 	Generate Mongo password
+##########################################
+
+MONGO_PASSWORD=$(openssl rand -base64 8 | sed 's:/::g')
+
+##########################################
 # Find public IP
 ##########################################
 
@@ -42,6 +48,7 @@ DOTENV_FILE=$BUILD_DIR/environment
 [ -e $DOTENV_FILE ] && rm $DOTENV_FILE
 echo BUILD_DIR=$BUILD_DIR >> $DOTENV_FILE
 cat $PWD/src/environment >> $DOTENV_FILE
+sed -i 's/__MONGO_PASSWORD__/'$MONGO_PASSWORD'/g' $DOTENV_FILE
 
 ##########################################
 # Build all URLs
@@ -65,6 +72,10 @@ cp -r $PWD/vault.properties $BUILD_DIR/configs/engine/vault.properties
 ##########################################
 
 for f in $(find $BUILD_DIR/configs -type f); do
+  sed -i 's/__MONGO_HOST__/'$MONGO_SERVICE_NAME'/g' $f
+  sed -i 's/__MONGO_PORT__/'$MONGO_PORT'/g' $f
+  sed -i 's/__MONGO_USER__/'$MONGO_USER'/g' $f
+  sed -i 's/__MONGO_PASSWORD__/'$MONGO_PASSWORD'/g' $f
   sed -i 's/__GITLAB_OAUTH_CLIENT__/'$GITLAB_OAUTH_CLIENT'/g' $f
   sed -i 's/__GITLAB_OAUTH_SECRET__/'$GITLAB_OAUTH_SECRET'/g' $f
   sed -i 's/__HOST_DNS_NAME__/'$HOST_DNS_NAME'/g' $f

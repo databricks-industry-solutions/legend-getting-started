@@ -1,0 +1,29 @@
+{
+  "appName": "LEGEND",
+  "env": "databricks",
+  "sdlc": {
+    "url": "__LEGEND_SDLC_URL__/api"
+  },
+  "depot": {
+    "url": "https://legend.finos.org/unused"
+  },
+  "engine": {
+    "url": "__LEGEND_ENGINE_URL__/api"
+  },
+  "documentation": {
+    "url": "https://legend.finos.org"
+  },
+  "extensions": {
+    "@finos/legend-studio-plugin-external-language-morphir": {
+      "visualizer": {
+        "url": "http://unused:8092"
+      },
+      "linterServer": {
+        "url": "http://unused:8091"
+      },
+      "linterApp": {
+        "url": "http://unused:8090"
+      }
+    }
+  }
+}

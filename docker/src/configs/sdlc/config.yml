@@ -34,6 +34,8 @@ filterPriorities:
 
 pac4j:
   callbackPrefix: /api/pac4j/login
+  mongoUri: mongodb://__MONGO_USER__:__MONGO_PASSWORD__@__MONGO_HOST__:__MONGO_PORT__
+  mongoDb: legend
   clients:
     - org.finos.legend.server.pac4j.gitlab.GitlabClient:
         name: gitlab
@@ -41,6 +43,9 @@ pac4j:
         secret: __GITLAB_OAUTH_SECRET__
         discoveryUri: https://gitlab.com/.well-known/openid-configuration
         scope: openid profile api
+  mongoSession:
+    enabled: true
+    collection: userSessions
   bypassPaths:
     - /api/info
 
