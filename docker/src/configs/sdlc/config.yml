@@ -3,7 +3,6 @@ applicationName: Legend SDLC
 sessionCookie: LEGEND_SDLC_JSESSIONID
 
 server:
-  adminContextPath: /sdlc/admin
   applicationConnectors:
     - type: http
       port: __LEGEND_SDLC_PORT__
@@ -21,7 +20,7 @@ server:
     appenders:
       - type: console
         logFormat: "OFF"
-  rootPath: /sdlc/api
+  rootPath: /api
 
 projectStructure:
   projectCreation:
@@ -50,7 +49,7 @@ pac4j:
     enabled: true
     collection: userSessions
   bypassPaths:
-    - /sdlc/api/info
+    - /api/info
 
 gitLab:
   newProjectVisibility: public

@@ -53,12 +53,13 @@
   },
   "swagger": {
     "title": "Legend Engine",
-    "resourcePackage": "org.finos.legend"
+    "resourcePackage": "org.finos.legend",
+    "uriPrefix": "/api"
   },
   "server": {
     "type": "simple",
-    "applicationContextPath": "/exec",
-    "adminContextPath": "/exec/admin",
+    "applicationContextPath": "/",
+    "adminContextPath": "/admin",
     "connector": {
       "maxRequestHeaderSize": "32KiB",
       "type": "http",
@@ -67,8 +68,7 @@
     "requestLog": {
       "appenders": [
       ]
-    },
-    "rootPath": "/api"
+    }
   },
   "metadataserver": {
     "pure": {
