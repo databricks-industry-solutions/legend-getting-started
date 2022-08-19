@@ -1,5 +1,9 @@
 #!/bin/bash
 
+for FILE in `find /app/bin`; do
+  echo $FILE
+done
+
 java \
   -XX:+ExitOnOutOfMemoryError \
   -Xss4M \

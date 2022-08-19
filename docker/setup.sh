@@ -76,34 +76,31 @@ cp -r $PWD/vault.properties $BUILD_DIR/configs/engine/vault.properties
 ##########################################
 
 for f in $(find $BUILD_DIR/configs -type f); do
-
   sed -i 's/__GITLAB_OAUTH_CLIENT__/'$GITLAB_OAUTH_CLIENT'/g' $f
   sed -i 's/__GITLAB_OAUTH_SECRET__/'$GITLAB_OAUTH_SECRET'/g' $f
-
   sed -i 's/__HOST_DNS_NAME__/'$HOST_DNS_NAME'/g' $f
-
   sed -i 's/__LEGEND_SDLC_PORT__/'$LEGEND_SDLC_PORT'/g' $f
   sed -i 's#__LEGEND_SDLC_URL__#'$LEGEND_SDLC_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_SDLC_ADMIN_PORT__/'$LEGEND_SDLC_ADMIN_PORT'/g' $f
-
   sed -i 's#__LEGEND_DEPOT_SERVER_URL__#'$LEGEND_DEPOT_SERVER_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_DEPOT_SERVER_PORT__/'$LEGEND_DEPOT_SERVER_PORT'/g' $f
-
   sed -i 's/__LEGEND_ENGINE_PORT__/'$LEGEND_ENGINE_PORT'/g' $f
   sed -i 's#__LEGEND_ENGINE_URL__#'$LEGEND_ENGINE_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_ENGINE_METADATA_PORT__/'$LEGEND_ENGINE_METADATA_PORT'/g' $f
-
   sed -i 's/__LEGEND_STUDIO_PORT__/'$LEGEND_STUDIO_PORT'/g' $f
-
   sed -i 's/__MONGO_HOST__/'$MONGO_SERVICE_NAME'/g' $f
   sed -i 's/__MONGO_PORT__/'$MONGO_PORT'/g' $f
   sed -i 's/__MONGO_USER__/'$MONGO_USER'/g' $f
   sed -i 's/__MONGO_PASSWORD__/'$MONGO_PASSWORD'/g' $f
-
   sed -i 's/__LEGEND_ENGINE_IMAGE_VERSION__/'$LEGEND_ENGINE_IMAGE_VERSION'/g' $f
   sed -i 's/__LEGEND_SDLC_IMAGE_VERSION__/'$LEGEND_SDLC_IMAGE_VERSION'/g' $f
+done
 
-
+for f in $(find $BUILD_DIR/scripts -type f); do
+  sed -i 's/__LEGEND_DEPOT_SERVER_IMAGE_VERSION__/'$LEGEND_DEPOT_SERVER_IMAGE_VERSION'/g' $f
+  sed -i 's/__LEGEND_ENGINE_IMAGE_VERSION__/'$LEGEND_ENGINE_IMAGE_VERSION'/g' $f
+  sed -i 's/__LEGEND_STUDIO_IMAGE_VERSION__/'$LEGEND_STUDIO_IMAGE_VERSION'/g' $f
+  sed -i 's/__LEGEND_SDLC_IMAGE_VERSION__/'$LEGEND_SDLC_IMAGE_VERSION'/g' $f
 done
 
 ##########################################
