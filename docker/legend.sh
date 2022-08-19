@@ -20,7 +20,7 @@ restart)
 clean)
   $0 stop
   rm -rf ${LEGEND_HOME}/dist
-  IMAGES=`sudo docker images | awk '{print $3}' | grep -v IMAGE`
+  IMAGES=`sudo docker images | grep finos | awk '{print $3}'`
   for IMAGE in $IMAGES:
   do
     sudo docker rmi $IMAGE
