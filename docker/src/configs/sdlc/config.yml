@@ -22,12 +22,6 @@ server:
         logFormat: "OFF"
   rootPath: /api
 
-projectStructure:
-  projectCreation:
-    groupIdPattern: ^com\.databricks\.legend\..+
-  extensionProvider:
-    org.finos.legend.sdlc.server.gitlab.finos.FinosGitlabProjectStructureExtensionProvider: {}
-
 filterPriorities:
   GitLab: 1
   org.pac4j.j2e.filter.CallbackFilter: 2
@@ -66,6 +60,27 @@ gitLab:
 features:
   canCreateProject: true
   canCreateVersion: true
+
+projectStructure:
+  projectCreation:
+    groupIdPattern: ^com\.databricks\.legend\..+
+  extensionProvider:
+    org.finos.legend.sdlc.server.gitlab.finos.FinosGitlabProjectStructureExtensionProvider: {}
+  platforms:
+    legend-engine:
+      groupId: org.finos.legend.engine
+      version:
+        12: __LEGEND_ENGINE_IMAGE_VERSION__
+      platformVersion:
+        version: __LEGEND_ENGINE_IMAGE_VERSION__
+        fromPackage: legend-engine-protocol-pure
+    legend-sdlc:
+      groupId: org.finos.legend.engine
+      version:
+        12: __LEGEND_SDLC_IMAGE_VERSION__
+      platformVersion:
+        version: __LEGEND_SDLC_IMAGE_VERSION__
+        fromPackage: legend-sdlc-server
 
 logging:
   level: INFO

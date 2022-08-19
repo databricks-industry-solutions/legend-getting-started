@@ -100,6 +100,10 @@ for f in $(find $BUILD_DIR/configs -type f); do
   sed -i 's/__MONGO_USER__/'$MONGO_USER'/g' $f
   sed -i 's/__MONGO_PASSWORD__/'$MONGO_PASSWORD'/g' $f
 
+  sed -i 's/__LEGEND_ENGINE_IMAGE_VERSION__/'$LEGEND_ENGINE_IMAGE_VERSION'/g' $f
+  sed -i 's/__LEGEND_SDLC_IMAGE_VERSION__/'$LEGEND_SDLC_IMAGE_VERSION'/g' $f
+
+
 done
 
 ##########################################

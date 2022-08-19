@@ -3,29 +3,20 @@
     "mode": "TEST_IGNORE_FUNCTION_MATCH"
   },
   "logging": {
-    "level": "INFO",
-    "loggers": {
-      "root": {
-        "level": "INFO"
-      },
-      "org.pac4j": {
-        "level": "INFO"
-      }
-    },
+    "level": "error",
     "appenders": [
       {
         "type": "console",
-        "logFormat": "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%thread] %c - %m%n"
+        "logFormat": "%msg\r\n"
       }
     ]
   },
   "pac4j": {
-    "callbackPrefix": "",
-    "mongoUri": "mongodb://__MONGO_USER__:__MONGO_PASSWORD__@__MONGO_HOST__:__MONGO_PORT__",
-    "mongoDb": "legend",
     "bypassPaths": [
       "/api/server/v1/info"
     ],
+    "mongoUri": "mongodb://__MONGO_USER__:__MONGO_PASSWORD__@__MONGO_HOST__:__MONGO_PORT__",
+    "mongoDb": "legend",
     "clients": [
       {
         "org.finos.legend.server.pac4j.gitlab.GitlabClient": {
@@ -33,7 +24,7 @@
           "clientId": "__GITLAB_OAUTH_CLIENT__",
           "secret": "__GITLAB_OAUTH_SECRET__",
           "discoveryUri": "https://gitlab.com/.well-known/openid-configuration",
-          "scope": "openid profile api"
+          "scope": "openid profile"
         }
       }
     ],
