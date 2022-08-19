@@ -1,0 +1,11 @@
+#!/bin/bash
+
+java \
+  -XX:+ExitOnOutOfMemoryError \
+  -Xss4M \
+  -XX:MaxRAMPercentage=60 \
+  -Dfile.encoding=UTF8 \
+  -cp /app/bin/*-shaded.jar \
+  org.finos.legend.engine.server.Server \
+  server \
+  /config/config.json
