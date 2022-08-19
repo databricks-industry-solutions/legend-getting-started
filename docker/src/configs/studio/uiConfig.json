@@ -8,7 +8,7 @@
     "url": "__LEGEND_ENGINE_URL__/api"
   },
   "depot": {
-    "url": "__LEGEND_DEPOT_SERVER_URL__/depot/api"
+    "url": "__LEGEND_DEPOT_SERVER_URL__/api"
   },
   "documentation": {
     "url": "https://legend.finos.org"

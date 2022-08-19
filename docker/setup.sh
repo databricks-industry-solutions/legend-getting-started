@@ -61,7 +61,7 @@ source $DOTENV_FILE
 LEGEND_SDLC_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_SDLC_PORT
 LEGEND_ENGINE_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_ENGINE_PORT
 LEGEND_STUDIO_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_STUDIO_PORT
-LEGEND_DEPOT_SERVER_URL=http://$HOST_DNS_NAME:$LEGEND_DEPOT_SERVER_PORT
+$LEGEND_DEPOT_SERVER_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_DEPOT_SERVER_PORT
 
 ##########################################
 # Copy over configs and scripts
@@ -86,7 +86,7 @@ for f in $(find $BUILD_DIR/configs -type f); do
   sed -i 's#__LEGEND_SDLC_URL__#'$LEGEND_SDLC_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_SDLC_ADMIN_PORT__/'$LEGEND_SDLC_ADMIN_PORT'/g' $f
 
-  sed -i 's#__LEGEND_DEPOT_SERVER_URL__#'$LEGEND_DEPOT_SERVER_URL'#g' $f
+  sed -i 's#__LEGEND_DEPOT_SERVER_URL__#'$LEGEND_DEPOT_SERVER_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_DEPOT_SERVER_PORT__/'$LEGEND_DEPOT_SERVER_PORT'/g' $f
 
   sed -i 's/__LEGEND_ENGINE_PORT__/'$LEGEND_ENGINE_PORT'/g' $f
@@ -117,3 +117,4 @@ echo "$LEGEND_ENGINE_PUBLIC_URL/callback"
 echo "$LEGEND_SDLC_PUBLIC_URL/api/auth/callback"
 echo "$LEGEND_SDLC_PUBLIC_URL/api/pac4j/login/callback"
 echo "$LEGEND_STUDIO_PUBLIC_URL/studio/log.in/callback"
+echo "$LEGEND_DEPOT_SERVER_PUBLIC_URL/depot-store/callback"
