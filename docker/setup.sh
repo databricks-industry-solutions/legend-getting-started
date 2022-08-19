@@ -39,10 +39,10 @@ mkdir -p $BUILD_DIR/data
 # create environment file
 ##########################################
 
-DOTENV_FILE=$BUILD_DIR/.env
+DOTENV_FILE=$BUILD_DIR/environment
 [ -e $DOTENV_FILE ] && rm $DOTENV_FILE
 echo BUILD_DIR=$BUILD_DIR >> $DOTENV_FILE
-cat $PWD/src/.env >> $DOTENV_FILE
+cat $PWD/src/environment >> $DOTENV_FILE
 
 ##########################################
 # Build all URLs
