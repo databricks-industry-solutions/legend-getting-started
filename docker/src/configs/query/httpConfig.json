@@ -1,0 +1,58 @@
+{
+  "pac4j": {
+    "callbackPrefix": "/query/log.in",
+    "mongoUri": "mongodb://__MONGO_USER__:__MONGO_PASSWORD__@__MONGO_HOST__:__MONGO_PORT__",
+    "mongoDb": "query",
+    "clients": [
+      {
+        "org.finos.legend.server.pac4j.gitlab.GitlabClient": {
+          "name" : "gitlab",
+          "clientId" : "__GITLAB_OAUTH_CLIENT__",
+          "secret": "__GITLAB_OAUTH_SECRET__",
+          "discoveryUri": "https://gitlab.com/.well-known/openid-configuration",
+          "scope": "openid profile api"
+        }
+      }
+    ],
+    "mongoSession": {
+      "enabled": true,
+      "collection": "userSessions"
+    }
+  },
+  "html5Router": true,
+  "routerExemptPaths": [
+    "/editor.worker.js",
+    "/json.worker.js",
+    "/editor.worker.js.map",
+    "/json.worker.js.map",
+    "/version.json",
+    "/config.json",
+    "/favicon.ico",
+    "/static"
+  ],
+  "localAssetPaths": {
+    "/query/config.json" : "/config/uiConfig.json"
+  },
+  "uiPath": "/query",
+  "server": {
+    "type": "simple",
+    "applicationContextPath": "/",
+    "adminContextPath": "/query/admin",
+    "connector": {
+      "type": "http",
+      "port": __LEGEND_QUERY_PORT__
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "loggers" : {
+      "root": { "level": "INFO"},
+      "org.pac4j": { "level": "INFO"}
+    },
+    "appenders": [
+      {
+        "type": "console"
+      }
+    ]
+  }
+}

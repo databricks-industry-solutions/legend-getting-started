@@ -1,0 +1,19 @@
+{
+  "appName": "QUERY",
+  "env": "databricks",
+  "sdlc": {
+    "url": "__LEGEND_SDLC_URL__/api"
+  },
+  "engine": {
+    "url": "__LEGEND_ENGINE_URL__/api"
+  },
+  "depot": {
+    "url": "__LEGEND_DEPOT_SERVER_URL__/depot/api"
+  },
+  "studio": {
+    "url": "__LEGEND_STUDIO_URL__/studio"
+  },
+  "documentation": {
+    "url": "https://legend.finos.org"
+  }
+}

@@ -81,6 +81,7 @@ LEGEND_ENGINE_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_ENGINE_PORT
 LEGEND_STUDIO_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_STUDIO_PORT
 LEGEND_DEPOT_SERVER_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_DEPOT_SERVER_PORT
 LEGEND_DEPOT_STORE_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_DEPOT_STORE_PORT
+LEGEND_QUERY_PUBLIC_URL=http://$HOST_DNS_NAME:$LEGEND_QUERY_PORT
 
 ##########################################
 # Copy over configs and scripts
@@ -108,6 +109,7 @@ for f in $(find $BUILD_DIR/configs -type f); do
   sed -i 's/__LEGEND_ENGINE_PORT__/'$LEGEND_ENGINE_PORT'/g' $f
   sed -i 's#__LEGEND_ENGINE_URL__#'$LEGEND_ENGINE_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_ENGINE_METADATA_PORT__/'$LEGEND_ENGINE_METADATA_PORT'/g' $f
+  sed -i 's#__LEGEND_STUDIO_URL__#'$LEGEND_STUDIO_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_STUDIO_PORT__/'$LEGEND_STUDIO_PORT'/g' $f
   sed -i 's/__MONGO_HOST__/'$MONGO_SERVICE_NAME'/g' $f
   sed -i 's/__MONGO_PORT__/'$MONGO_PORT'/g' $f
@@ -139,4 +141,5 @@ echo "$LEGEND_ENGINE_PUBLIC_URL/callback"
 echo "$LEGEND_SDLC_PUBLIC_URL/api/auth/callback"
 echo "$LEGEND_SDLC_PUBLIC_URL/api/pac4j/login/callback"
 echo "$LEGEND_STUDIO_PUBLIC_URL/studio/log.in/callback"
+echo "$LEGEND_QUERY_PUBLIC_URL/query/log.in/callback"
 echo "$LEGEND_DEPOT_STORE_PUBLIC_URL/depot-store/callback"
