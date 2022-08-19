@@ -55,7 +55,7 @@ gitLab:
   app:
     id: __GITLAB_OAUTH_CLIENT__
     secret: __GITLAB_OAUTH_SECRET__
-    redirectURI: __LEGEND_SDLC_PUBLIC_URL__/api/auth/callback
+    redirectURI: __LEGEND_SDLC_URL__/api/auth/callback
 
 features:
   canCreateProject: true
