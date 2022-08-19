@@ -8,13 +8,13 @@ BUILD_DIR=$PWD/dist
 ##########################################
 
 PROPERTIES=$PWD/config.properties
-GITLAB_OAUTH_CLIENT=$(echo $(grep -v '^#' $PROPERTIES | grep -e "GITLAB_OAUTH_CLIENT" | gsed -e 's/.*=//'))
+GITLAB_OAUTH_CLIENT=$(echo $(grep -v '^#' $PROPERTIES | grep -e "GITLAB_OAUTH_CLIENT" | sed -e 's/.*=//'))
 if [ -z "$GITLAB_OAUTH_CLIENT" ]; then
   echo "GITLAB_OAUTH_CLIENT is not specified."
   exit 1
 fi
 
-GITLAB_OAUTH_SECRET=$(echo $(grep -v '^#' $PROPERTIES | grep -e "GITLAB_OAUTH_SECRET" | gsed -e 's/.*=//'))
+GITLAB_OAUTH_SECRET=$(echo $(grep -v '^#' $PROPERTIES | grep -e "GITLAB_OAUTH_SECRET" | sed -e 's/.*=//'))
 if [ -z "$GITLAB_OAUTH_SECRET" ]; then
   echo "GITLAB_OAUTH_SECRET is not specified."
   exit 1
@@ -66,15 +66,15 @@ cp -r $PWD/vault.properties $BUILD_DIR/configs/engine/vault.properties
 ##########################################
 
 for f in $(find $BUILD_DIR/configs -type f); do
-  gsed -i 's/__GITLAB_OAUTH_CLIENT__/'$GITLAB_OAUTH_CLIENT'/g' $f
-  gsed -i 's/__GITLAB_OAUTH_SECRET__/'$GITLAB_OAUTH_SECRET'/g' $f
-  gsed -i 's/__HOST_DNS_NAME__/'$HOST_DNS_NAME'/g' $f
-  gsed -i 's/__LEGEND_SDLC_PORT__/'$LEGEND_SDLC_PORT'/g' $f
-  gsed -i 's~__LEGEND_SDLC_PUBLIC_URL__~'$LEGEND_SDLC_PUBLIC_URL'~g' $f
-  gsed -i 's/__LEGEND_ENGINE_PORT__/'$LEGEND_ENGINE_PORT'/g' $f
-  gsed -i 's~__LEGEND_ENGINE_URL__~'$LEGEND_ENGINE_PUBLIC_URL'~g' $f
-  gsed -i 's/__LEGEND_STUDIO_PORT__/'$LEGEND_STUDIO_PORT'/g' $f
-  gsed -i 's~__LEGEND_SDLC_URL__~'$LEGEND_SDLC_PUBLIC_URL'~g' $f
+  sed -i 's/__GITLAB_OAUTH_CLIENT__/'$GITLAB_OAUTH_CLIENT'/g' $f
+  sed -i 's/__GITLAB_OAUTH_SECRET__/'$GITLAB_OAUTH_SECRET'/g' $f
+  sed -i 's/__HOST_DNS_NAME__/'$HOST_DNS_NAME'/g' $f
+  sed -i 's/__LEGEND_SDLC_PORT__/'$LEGEND_SDLC_PORT'/g' $f
+  sed -i 's~__LEGEND_SDLC_PUBLIC_URL__~'$LEGEND_SDLC_PUBLIC_URL'~g' $f
+  sed -i 's/__LEGEND_ENGINE_PORT__/'$LEGEND_ENGINE_PORT'/g' $f
+  sed -i 's~__LEGEND_ENGINE_URL__~'$LEGEND_ENGINE_PUBLIC_URL'~g' $f
+  sed -i 's/__LEGEND_STUDIO_PORT__/'$LEGEND_STUDIO_PORT'/g' $f
+  sed -i 's~__LEGEND_SDLC_URL__~'$LEGEND_SDLC_PUBLIC_URL'~g' $f
 done
 
 ##########################################
