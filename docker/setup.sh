@@ -24,7 +24,6 @@ fi
 # Find public IP
 ##########################################
 
-echo "HOST_DNS_NAME is not specified, checking public IP"
 HOST_DNS_NAME=`curl ifconfig.co 2>/dev/null`
 
 ##########################################
