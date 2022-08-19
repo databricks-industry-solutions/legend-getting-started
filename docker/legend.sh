@@ -7,7 +7,6 @@ configure)
   ${LEGEND_HOME}/setup.sh
   ;;
 start)
-  $0 configure
   sudo docker-compose --env-file ${LEGEND_HOME}/dist/environment up --detach
   ;;
 stop)
@@ -18,8 +17,6 @@ restart)
   $0 start
   ;;
 clean)
-  $0 stop
-  rm -rf ${LEGEND_HOME}/dist
   IMAGES=`sudo docker images | grep finos | awk '{print $3}'`
   for IMAGE in $IMAGES:
   do

@@ -83,7 +83,7 @@ for f in $(find $BUILD_DIR/configs -type f); do
   sed -i 's/__HOST_DNS_NAME__/'$HOST_DNS_NAME'/g' $f
 
   sed -i 's/__LEGEND_SDLC_PORT__/'$LEGEND_SDLC_PORT'/g' $f
-  sed -i 's#__LEGEND_SDLC_PUBLIC_URL__#'$LEGEND_SDLC_PUBLIC_URL'#g' $f
+  sed -i 's#__LEGEND_SDLC_URL__#'$LEGEND_SDLC_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_SDLC_ADMIN_PORT__/'$LEGEND_SDLC_ADMIN_PORT'/g' $f
 
   sed -i 's#__LEGEND_DEPOT_SERVER_URL__#'$LEGEND_DEPOT_SERVER_URL'#g' $f
