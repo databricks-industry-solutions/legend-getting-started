@@ -72,7 +72,6 @@ cp -r $PWD/vault.properties $BUILD_DIR/configs/engine/vault.properties
 ##########################################
 
 for f in $(find $BUILD_DIR/configs -type f); do
-  echo $f
   sed -i 's/__GITLAB_OAUTH_CLIENT__/'$GITLAB_OAUTH_CLIENT'/g' $f
   sed -i 's/__GITLAB_OAUTH_SECRET__/'$GITLAB_OAUTH_SECRET'/g' $f
   sed -i 's/__HOST_DNS_NAME__/'$HOST_DNS_NAME'/g' $f
