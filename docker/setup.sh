@@ -38,11 +38,11 @@ if [ -z "$GITLAB_DEPLOY_TOKEN_PASSWORD" ]; then
   exit 1
 fi
 
-##########################################
-# 	Generate Mongo password
-##########################################
-
-MONGO_PASSWORD=$(openssl rand -base64 8 | sed 's:/::g' | awk -F "=" '{print $1}')
+MONGO_PASSWORD=$(echo $(grep -v '^#' $PROPERTIES | grep -e "MONGO_PASSWORD" | sed -e 's/.*=//'))
+if [ -z "$MONGO_PASSWORD" ]; then
+  echo "MONGO_PASSWORD is not specified."
+  exit 1
+fi
 
 ##########################################
 # Find public IP
@@ -96,46 +96,36 @@ cp -r $PWD/vault.properties $BUILD_DIR/configs/engine/vault.properties
 ##########################################
 
 for f in $(find $BUILD_DIR/configs -type f); do
-
   sed -i 's/__HOST_DNS_NAME__/'$HOST_DNS_NAME'/g' $f
-
   sed -i 's/__GITLAB_OAUTH_CLIENT__/'$GITLAB_OAUTH_CLIENT'/g' $f
   sed -i 's/__GITLAB_OAUTH_SECRET__/'$GITLAB_OAUTH_SECRET'/g' $f
   sed -i 's/__GITLAB_PROJECT_ID__/'$GITLAB_PROJECT_ID'/g' $f
   sed -i 's/__GITLAB_DEPLOY_TOKEN_USERNAME__/'$GITLAB_DEPLOY_TOKEN_USERNAME'/g' $f
   sed -i 's/__GITLAB_DEPLOY_TOKEN_PASSWORD__/'$GITLAB_DEPLOY_TOKEN_PASSWORD'/g' $f
-
   sed -i 's/__LEGEND_SDLC_PORT__/'$LEGEND_SDLC_PORT'/g' $f
   sed -i 's#__LEGEND_SDLC_URL__#'$LEGEND_SDLC_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_SDLC_ADMIN_PORT__/'$LEGEND_SDLC_ADMIN_PORT'/g' $f
   sed -i 's/__LEGEND_SDLC_IMAGE_VERSION__/'$LEGEND_SDLC_IMAGE_VERSION'/g' $f
-
   sed -i 's/__LEGEND_ENGINE_PORT__/'$LEGEND_ENGINE_PORT'/g' $f
   sed -i 's#__LEGEND_ENGINE_URL__#'$LEGEND_ENGINE_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_ENGINE_METADATA_PORT__/'$LEGEND_ENGINE_METADATA_PORT'/g' $f
   sed -i 's/__LEGEND_ENGINE_IMAGE_VERSION__/'$LEGEND_ENGINE_IMAGE_VERSION'/g' $f
-
   sed -i 's#__LEGEND_DEPOT_SERVER_URL__#'$LEGEND_DEPOT_SERVER_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_DEPOT_SERVER_PORT__/'$LEGEND_DEPOT_SERVER_PORT'/g' $f
   sed -i 's/__LEGEND_DEPOT_SERVER_IMAGE_VERSION__/'$LEGEND_DEPOT_SERVER_IMAGE_VERSION'/g' $f
-
   sed -i 's#__LEGEND_DEPOT_STORE_URL__#'$LEGEND_DEPOT_STORE_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_DEPOT_STORE_PORT__/'$LEGEND_DEPOT_STORE_PORT'/g' $f
   sed -i 's/__LEGEND_DEPOT_STORE_IMAGE_VERSION__/'$LEGEND_DEPOT_STORE_IMAGE_VERSION'/g' $f
-
   sed -i 's#__LEGEND_STUDIO_URL__#'$LEGEND_STUDIO_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_STUDIO_PORT__/'$LEGEND_STUDIO_PORT'/g' $f
   sed -i 's/__LEGEND_STUDIO_IMAGE_VERSION__/'$LEGEND_STUDIO_IMAGE_VERSION'/g' $f
-
   sed -i 's#__LEGEND_QUERY_PUBLIC_URL__#'$LEGEND_QUERY_PUBLIC_URL'#g' $f
   sed -i 's/__LEGEND_QUERY_PORT__/'$LEGEND_QUERY_PORT'/g' $f
   sed -i 's/__LEGEND_QUERY_IMAGE_VERSION__/'$LEGEND_QUERY_IMAGE_VERSION'/g' $f
-
   sed -i 's/__MONGO_HOST__/'$MONGO_SERVICE_NAME'/g' $f
   sed -i 's/__MONGO_PORT__/'$MONGO_PORT'/g' $f
   sed -i 's/__MONGO_USER__/'$MONGO_USER'/g' $f
   sed -i 's/__MONGO_PASSWORD__/'$MONGO_PASSWORD'/g' $f
-
 done
 
 for f in $(find $BUILD_DIR/scripts -type f); do
