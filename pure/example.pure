@@ -1,0 +1,176 @@
+###Service
+Service databricks::service::skills
+{
+  pattern: '/skills';
+  owners:
+  [
+    'Antoine Amend'
+  ];
+  documentation: 'Diversity metrics, how many female / male employee, with average high fives';
+  autoActivateUpdates: false;
+  execution: Single
+  {
+    query: |databricks::entity::employee.all()->filter(x|!($x.gender->isEmpty()))->groupBy([x|$x.gender], [agg(x|$x.highFives, x|$x->average()), agg(x|$x.id, x|$x->count())], ['Gender', 'HighFives', 'Employees'])->sort([desc('HighFives')])->take(10);
+    mapping: databricks::mapping::employee_delta;
+    runtime: databricks::runtime::employee;
+  }
+  test: Single
+  {
+    data: '';
+    asserts:
+    [
+    ];
+  }
+}
+
+Service databricks::service::employee
+{
+  pattern: '/employee';
+  owners:
+  [
+    'Antoine Amend'
+  ];
+  documentation: 'Retrieve databricks employees given a programming language, ordered by number of high fives they got';
+  autoActivateUpdates: false;
+  execution: Single
+  {
+    query: |databricks::entity::employee.all()->filter(x|$x.firstName->startsWith('G'))->project([x|$x.firstName, x|$x.lastName, x|$x.age, x|$x.hiringAge, x|$x.sme, x|$x.initials], ['FirstName', 'LastName', 'Age', 'Hiring Age', 'Sme', 'Initials'])->take(10);
+    mapping: databricks::mapping::employee_delta;
+    runtime: databricks::runtime::employee;
+  }
+  test: Single
+  {
+    data: '';
+    asserts:
+    [
+    ];
+  }
+}
+
+
+###Relational
+Database databricks::table::schema
+(
+  Schema legend
+  (
+    Table employee
+    (
+      id INTEGER PRIMARY KEY,
+      first_name VARCHAR(255),
+      last_name VARCHAR(255),
+      birth_date DATE,
+      gender VARCHAR(255),
+      sme VARCHAR(255),
+      joined_date DATE,
+      high_fives INTEGER
+    )
+  )
+)
+
+
+###Pure
+Enum databricks::entity::sme
+{
+  Scala,
+  Python,
+  Java,
+  R,
+  SQL
+}
+
+Class databricks::entity::employee extends databricks::entity::person
+[
+  '[high five] should be positive': $this.highFives > 0,
+  '[hiringAge] should be > 18': $this.hiringAge > 18
+]
+{
+  {meta::pure::profiles::doc.doc = 'Unique ID of a databricks employee'} id: Integer[1];
+  {meta::pure::profiles::doc.doc = 'Programming skill that person truly masters'} sme: databricks::entity::sme[0..1];
+  {meta::pure::profiles::doc.doc = 'When did that person join Databricks'} joinedDate: Date[1];
+  {meta::pure::profiles::doc.doc = 'How many high fives did that person get'} highFives: Integer[0..1];
+  {meta::pure::profiles::doc.doc = 'Employee age when joining databricks'} hiringAge() {$this.birthDate->dateDiff($this.joinedDate, DurationUnit.YEARS)}: Integer[1];
+  {meta::pure::profiles::doc.doc = 'Employee age today'} age() {$this.birthDate->dateDiff(today(), DurationUnit.YEARS)}: Integer[1];
+  {meta::pure::profiles::doc.doc = 'Employee initials'} initials() {$this.firstName->substring(0, 1) + $this.lastName->substring(0, 1)}: String[1];
+}
+
+Class databricks::entity::person
+{
+  {meta::pure::profiles::doc.doc = 'Person first name'} firstName: String[1];
+  {meta::pure::profiles::doc.doc = 'Person last name'} lastName: String[1];
+  {meta::pure::profiles::doc.doc = 'Person birth date'} birthDate: Date[1];
+  {meta::pure::profiles::doc.doc = 'Person gender'} gender: String[0..1];
+  {meta::pure::profiles::doc.doc = 'Person age'} age() {$this.birthDate->databricks::entity::compute_age()}: Integer[1];
+  {meta::pure::profiles::doc.doc = 'Person initials'} initials() {$this.firstName->substring(0, 1) + $this.lastName->substring(0, 1)}: String[1];
+}
+
+function {meta::pure::profiles::doc.doc = 'compute age of a given employee'} databricks::entity::compute_age(birthDate: Date[1]): Integer[1]
+{
+   $birthDate->dateDiff(today(), DurationUnit.YEARS)
+}
+
+
+###Mapping
+Mapping databricks::mapping::employee_delta
+(
+  *databricks::entity::employee: Relational
+  {
+    ~primaryKey
+    (
+      [databricks::table::schema]legend.employee.id
+    )
+    ~mainTable [databricks::table::schema]legend.employee
+    firstName: [databricks::table::schema]legend.employee.first_name,
+    lastName: [databricks::table::schema]legend.employee.last_name,
+    birthDate: [databricks::table::schema]legend.employee.birth_date,
+    id: [databricks::table::schema]legend.employee.id,
+    sme: EnumerationMapping databricks_entity_sme: [databricks::table::schema]legend.employee.sme,
+    gender: [databricks::table::schema]legend.employee.gender,
+    joinedDate: [databricks::table::schema]legend.employee.joined_date,
+    highFives: [databricks::table::schema]legend.employee.high_fives
+  }
+
+  databricks::entity::sme: EnumerationMapping
+  {
+    Scala: ['Scala'],
+    Python: ['Python'],
+    Java: ['Java'],
+    R: ['R'],
+    SQL: ['SQL']
+  }
+)
+
+
+###Connection
+RelationalDatabaseConnection databricks::lakehouse::employee
+{
+  store: databricks::table::schema;
+  type: Databricks;
+  specification: Databricks
+  {
+    hostname: 'XXXXXXXXXXXXXX';
+    port: '443';
+    protocol: 'https';
+    httpPath: 'XXXXXXXXXXXXXX';
+  };
+  auth: ApiToken
+  {
+    apiToken: 'XXXXXXXXXXXXXX';
+  };
+}
+
+
+###Runtime
+Runtime databricks::runtime::employee
+{
+  mappings:
+  [
+    databricks::mapping::employee_delta
+  ];
+  connections:
+  [
+    databricks::table::schema:
+    [
+      environment: databricks::lakehouse::employee
+    ]
+  ];
+}

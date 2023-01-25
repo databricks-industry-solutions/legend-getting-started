@@ -21,6 +21,11 @@ ___
 
 ___
 
+
+Please check docker folder for basic installation (tested on AWS EC2), notebook for getting started example and pure model for a sample project.
+
+___
+
 &copy; 2022 Databricks, Inc. All rights reserved. The source in this notebook is provided subject to the Databricks License [https://databricks.com/db-license-source].  All included or referenced third party libraries are subject to the licenses set forth below.
 
 | library                                | description        | license | source                                 |
